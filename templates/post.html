@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{post.title}}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f3f4;
+            text-align: center;
+        }
+
+        h1 {
+            color: blue;
+        }
+
+        pre {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+            white-space: pre-line;
+            max-width: 70ch;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        #like_button {
+            width: 25;
+            appearance: none;
+        }
+    </style>
+</head>
+<body>
+    {% if post.user_id == current_user.id %}
+    <form action="/api/delete_post/{{post.id}}" method="post">
+        <button type="submit">Delete post</button>
+    </form>
+    {% endif %}
+
+    <div>
+        <h1>{{post.title}}</h1>
+    <pre>{{post.desc}}</pre>
+
+    {%if current_user.is_authenticated%}
+    <a href="/api/like/{{post.id}}?redirect=/post/{{post.id}}"><button>
+        {% if not user_likes %}
+        <img id="like_button" src="/static/like.png" alt="Like">
+        {% else %}
+        <img id="like_button" src="/static/no_like.png" alt="Dislike">
+        {% endif %}
+    </button></a>
+    <span>{{post.likes}}</span>
+    {%endif%}
+
+    <p>This post has {{post.views}} views.</p>
+    </div>
+
+    <div id="comment_div">
+    {% if current_user.is_authenticated %}
+        <form action="/api/new_comment/{{post.id}}" method="post">
+            <label for="contents">{{current_user.username}}:</label>
+            <textarea name="contents" id="contents" required placeholder="Share your thoughts..."></textarea>
+            <button type="submit">Comment</button>
+        </form>
+    {% else %}
+        <p>Login to comment on this post.</p>
+    {% endif %}
+    {% for comment in comments %}
+        <div class="comment">
+            <h3>{{comment.author_username}}</h3>
+            <span>{{comment.content}}</span>
+            <p class="timestamp">{{comment.timestamp}}</p>
+        </div>
+    {% endfor %}
+    </div>
+</body>
+<script>
+const timestamps = document.querySelectorAll(".timestamp")
+function formatUnixTimestamp(unixTimestamp) {
+  const dateObj = new Date(unixTimestamp * 1000); // Convert to milliseconds
+  const year = dateObj.getFullYear();
+  // getMonth() returns a zero-based index (0 for January), so add 1
+  const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+  const day = dateObj.getDate().toString().padStart(2, '0');
+  const hours = dateObj.getHours().toString().padStart(2, '0');
+  const minutes = dateObj.getMinutes().toString().padStart(2, '0');
+  const seconds = dateObj.getSeconds().toString().padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+timestamps.forEach(element => {
+    let formatted_timestamp = formatUnixTimestamp(element.textContent);
+    element.textContent = formatted_timestamp;
+});
+</script>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: white;
+    }
+
+    #login {
+        background-color: #f0f0f0;
+        margin: auto;
+        display: grid;
+        gap: 10px;
+        padding: 20px;
+        max-width: max(800px, 60vw);
+        border: 2px solid black;
+        border-radius: 8px;
+    }
+
+    .fg {
+        display: block;
+        
+    }
+    
+    input {
+        display: block;
+    }
+    
+    </style>
+</head>
+<body>
+    <form action="/api/login" method="post">
+        <div class="fg">
+            <label for="username">Username</label>
+            <input required type="text" name="username" id="username">
+        </div>
+
+        <div class="fg">
+            <label for="password">Password</label>
+            <input required type="password" name="password" id="password">
+        </div>
+
+        <button type="submit">Login</button>
+    </form>
+    <a href="/register">No account? Register</a>
+</body>
+</html>

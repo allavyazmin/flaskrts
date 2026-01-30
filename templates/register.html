@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: white;
+        }
+
+        #register {
+            background-color: #f0f0f0;
+            margin: auto;
+            display: grid;
+            gap: 10px;
+            padding: 20px;
+            max-width: max(800px, 60vw);
+            border: 2px solid black;
+            border-radius: 8px;
+        }
+
+        .fg {
+            display: block;
+        }
+        
+        input {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <form action="/api/register" method="post" id="register">
+        <div class="fg">
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username">
+        </div>
+
+        <div class="fg">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password">
+        </div>
+
+        <div class="fg">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email">
+        </div>
+        
+        <br>
+        <button type="submit" id="submit">Register</button>
+    </form>
+</body>
+</html>
